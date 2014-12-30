@@ -1,0 +1,62 @@
+﻿{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block title %}{{page.title}}{% endblock %}
+
+{%block page_left%}
+<div class="starter-template">
+<h1>{{page.title}}</h1>
+<p class="lead">
+{% if page.body_html %}
+       {{page.body_html |safe }}
+     {% else %}
+        {{page.body }}
+     {% endif%}
+</p>
+<br>
+<br>
+<br>
+<!– JiaThis Button BEGIN –>
+<div id="jiathis_style_32x32">
+<h3>Share:</h3>
+<a class="jiathis_button_qzone"></a>
+<a class="jiathis_button_tsina"></a>
+<a class="jiathis_button_tqq"></a>
+<a class="jiathis_button_renren"></a>
+<a href="http://www.jiathis.com/share/" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+</div>
+<script type="text/javascript" src="http://v1.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!– JiaThis Button END –>
+<br><br>
+
+<p class="text-muted">阅读量:{{page.click_count}}&nbsp;发表于:{{page.time |date}} by <a href="{{url_for('main.user',username = page.author.username)}}">{{page.author.username}}</a></p>
+<hr />
+Tags:
+{% for tag in tags %}
+<a class="label label-default " href="{{url_for('main.tag',tagname = tag.name)}}" role="button">{{tag.name}}</a>
+{% endfor %}
+</div>
+
+{% if current_user == page.author or current_user.is_admin()%}
+</p>
+<a class="btn btn-primary" href='{{ url_for('main.edit',id = page.id) }}'>修改</a>
+<a class="btn btn-warning" href='{{ url_for('main.delete',id = page.id) }}'>删除</a>
+{% endif %}
+{{wtf.quick_form(form)}}
+<hr>
+<h3>Comments</h3>
+  <ul>
+
+{% for comment in comments%}
+  <li>
+<div class="panel panel-default">
+<div class="panel-body">
+    <div>
+       <a href="#">{{comment.author.username}}</a> 评论于 <time>{{comment.time|date}}</time>
+    </div>
+    <div><p>{{comment.body}}</p></div>
+</div>
+</div>
+  </li>
+{% endfor%}
+  </ul>
+{% endblock %}

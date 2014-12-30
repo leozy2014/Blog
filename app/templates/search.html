@@ -1,0 +1,22 @@
+{%extends 'base.html'%}
+
+{%block page_content%}
+
+      <div class="header">
+        <h1 class="title">dfwagky22szxcjhksdg36sdc</h1>
+        <p class="lead description">dfwagky22szxcjhksdg36sdc dfwagky22szxcjhksdg36sdc</p>
+      </div>
+
+{% for post in posts%}
+<div class="well well-sm">
+  <h2 class="blog-post-title"><a href="{{url_for('main.page',id=post.id)}}" target="_blank" >{{post.title}}</a></h2>
+     {% if post.body_html %}
+       <a style="color:#333;text-decoration:None" href ='{{url_for('main.page',id = post.id)}}' target="_blank">{{post.body_html |safe| truncate(200,True)}}</a>
+     {% else %}
+        {{post.body }}
+     {% endif%}
+	<p class="text-muted">{{post.time |date}} by <a href="{{url_for('main.user',username = post.author.username)}}">{{post.author.username}}</a></p>
+</div>
+{% endfor %}
+
+{%endblock%}

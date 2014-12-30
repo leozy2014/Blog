@@ -1,0 +1,46 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}哈哈哈{% endblock %}
+
+
+{%block page_left%}
+
+      <div class="header">
+        <h1 class="title">dfwagky22szxcjhksdg36sdc</h1>
+        <p class="lead description">dfwagky22szxcjhksdg36sdc dfwagky22szxcjhksdg36sdc</p>
+      </div>
+
+{% for post in posts%}
+<div class="well well-sm">
+  <h2 class="blog-post-title"><a href="{{url_for('main.page',id=post.id)}}" target="_blank" >{{post.title}}</a></h2>
+     {% if post.body_html %}
+       <a style="color:#333;text-decoration:None" href ='{{url_for('main.page',id = post.id)}}' target="_blank">{{post.body_html |safe| truncate(200,True)}}</a>
+     {% else %}
+        {{post.body }}
+     {% endif%}
+	<p class="text-muted">{{post.time |date}} by <a href="{{url_for('main.user',username = post.author.username)}}">{{post.author.username}}</a></p>
+</div>
+{% endfor %}
+
+
+
+<nav>
+  <ul class="pager"  >
+    {% if pagination.has_prev %}
+    <li class="previous" ><a href="{{ url_for('main.index', page = pagination.prev_num) }}">Older</a></li>
+    {% endif %}
+    {% if pagination.has_next %}
+    <li class="next"><a href="{{ url_for('main.index', page = pagination.next_num) }}">Newer</a></li>
+    {% endif %}
+  </ul>
+</nav>
+{% endblock %}
+
+
+{%block page_right %}
+  <div>
+  {%for tag in tags %}
+    <a class="label label-default " href="{{url_for('main.tag',tagname = tag.name)}}" role="button">{{tag.name}}</a>
+  {% endfor %}
+  </div>
+{% endblock %}

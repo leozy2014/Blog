@@ -1,0 +1,21 @@
+﻿{% extends 'base.html' %}
+
+{% import 'bootstrap/wtf.html' as wtf %}
+{%block page_content%}
+<form class="form-signin" role="form" method = 'post'>
+<h2 class="form-signin-heading">快写啊...</h2>
+{{form.hidden_tag()}}
+{{form.title.label}}{{form.title(class="form-control")}}
+{{form.body.label}}{{form.body(id="editor1",class="ckeditor",rows="10",cols="80")}}
+{{form.tags.label}}{{form.tags(class="form-control")}}
+{{form.submit.label}}{{form.submit(class="btn btn-lg btn-primary btn-block")}}
+</form>
+{% endblock %}
+
+
+{% block scripts %}
+{{super()}}
+<script src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>
+
+<script>CKEDITOR.replace('editor1');</script>
+{% endblock %}
